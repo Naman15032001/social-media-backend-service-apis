@@ -19,8 +19,6 @@ app.get("/test", (req, res) => {
         success: 1
     })
 
-    //res.end("hello");
-
 })
 
 app.use("/api/auth", authRouter)
