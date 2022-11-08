@@ -7,6 +7,7 @@ import secret from '../secret.js';
 const authRouter = express.Router();
 
 authRouter.post("/signup", async (req, res) => {
+    
 
     let {
         fullname,
