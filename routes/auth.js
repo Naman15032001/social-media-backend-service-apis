@@ -7,6 +7,7 @@ import authMiddleware from '../middleware/authMiddleware.js'
 
 const authRouter = express.Router();
 
+
 authRouter.post("/signup", async (req, res) => {
 
 
