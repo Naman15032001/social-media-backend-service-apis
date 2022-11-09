@@ -3,11 +3,12 @@ import connection from '../db.js'
 import bcrypt from 'bcrypt';
 import jsonwebtoken from 'jsonwebtoken'
 import secret from '../secret.js';
+import authMiddleware from '../middleware/authMiddleware.js'
 
 const authRouter = express.Router();
 
 authRouter.post("/signup", async (req, res) => {
-    
+
 
     let {
         fullname,
@@ -85,6 +86,29 @@ authRouter.post("/login", (req, res) => {
             }
         }
     )
+
+});
+
+
+authRouter.post("/getUserFromToken", authMiddleware, (req, res) => {
+
+    let token = req.body.token;
+
+    console.log("naman",token)
+
+    jsonwebtoken.verify(token, secret, (err, user) => {
+
+        if (err) {
+            res.json({
+                error: "auth failed",
+                success: 0
+            })
+        } else {
+            res.json({
+                user
+            })
+        }
+    });
 
 })
 
