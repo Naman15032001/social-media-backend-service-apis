@@ -2,7 +2,6 @@ import express from 'express';
 import connection from '../db.js';
 import authMiddleware from '../middleware/authMiddleware.js'
 
-
 const postRouter = express.Router();
 
 postRouter.get("/allPosts", authMiddleware, (req, res) => {
