@@ -204,7 +204,7 @@ postRouter.get("/checklike/:id", authMiddleware, (req, res) => {
             })
         }
     });
-    
+
 
 })
 
@@ -234,5 +234,106 @@ postRouter.get('/countlikes/:id', authMiddleware, (req, res) => {
 
 })
 
+postRouter.post('/comment/:id', authMiddleware, (req, res) => {
+
+    const id = req.params.id;
+
+    const authHeader = req.headers['authorization'];
+
+    const text = req.body.text;
+
+    console.log("hello1", authHeader)
+
+    const token = authHeader && authHeader.split(" ")[1];
+
+    jsonwebtoken.verify(token, secret, (err, user) => {
+
+        if (err) {
+            res.json({
+                error: "auth failed",
+                success: 0
+            })
+        } else {
+            connection.query("insert into comments (user_id,post_id,text) values(?,?,?)", [user.id, id, text], (err, result) => {
+                if (err) {
+                    res.json({
+                        success: 0,
+                        error: err.message
+                    })
+                } else {
+                    res.json({
+                        success: 1,
+                    })
+                }
+            })
+        }
+    });
+
+
+
+
+})
+
+postRouter.delete("/deletecomment/:id", authMiddleware, (req, res) => {
+
+    const id = req.params.id;
+
+    connection.query("delete from comments where id = ? ", [id], (err, result) => {
+        if (err) {
+            res.json({
+                success: 0,
+                error: err.message
+            })
+        } else {
+            res.json({
+                success: 1,
+            })
+        }
+    })
+
+
+
+})
+
+postRouter.put("/updatecomment/:id", authMiddleware, (req, res) => {
+
+    const id = req.params.id;
+
+    const text = req.body.text;
+
+    connection.query("update  comments set text = ? where id = ? ", [text, id], (err, result) => {
+        if (err) {
+            res.json({
+                success: 0,
+                error: err.message
+            })
+        } else {
+            res.json({
+                success: 1,
+            })
+        }
+    })
+})
+
+
+postRouter.get('/getcomments/:id', authMiddleware, (req, res) => {
+
+    const id = req.params.id;
+
+    connection.query("select fullname,text,post_id from  comments inner join users on comments.user_id = users.id where comments.post_id = ? ", [id], (err, result) => {
+        if (err) {
+            res.json({
+                success: 0,
+                error: err.message
+            })
+        } else {
+            res.json({
+                success: 1,
+                result: result
+            })
+        }
+    })
+
+})
 
 export default postRouter
