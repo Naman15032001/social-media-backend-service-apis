@@ -15,4 +15,5 @@ connection.connect(function (err) {
     console.log('Database connected');
 })
 
+
 export default connection;
