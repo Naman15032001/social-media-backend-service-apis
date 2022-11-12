@@ -96,6 +96,7 @@ friendRouter.post('/rejectrequest/:id', (req, res) => {
             res.json({
                 success: 0,
                 error: err.message
+                
             })
         } else {
             res.json({
