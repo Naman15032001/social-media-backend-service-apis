@@ -6,14 +6,6 @@ import secret from '../secret.js';
 
 const friendRouter = express.Router();
 
-// friends
-
-//sender_id 
-
-// status 
-
-//id 
-
 friendRouter.post('/sendrequest', authMiddleware, (req, res) => {
 
     const friendid = req.body.id;
@@ -96,7 +88,7 @@ friendRouter.post('/rejectrequest/:id', (req, res) => {
             res.json({
                 success: 0,
                 error: err.message
-                
+
             })
         } else {
             res.json({
